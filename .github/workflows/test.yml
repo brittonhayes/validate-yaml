@@ -20,3 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        with:
+          files: |
+            __tests__/valid.yaml
+          schemaPath: "__tests__/schema.json"
