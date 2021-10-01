@@ -1,0 +1,5 @@
+---
+test:
+  structure:
+    myValue: "1"
+    myValue2: "2"

@@ -1,9 +1,9 @@
 {
-  "name": "typescript-action",
+  "name": "validate-yaml",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
-  "main": "lib/main.js",
+  "description": "Validate YAML against a schema using github actions",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
@@ -11,21 +11,24 @@
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+    "all": "yarn run build && yarn run format && yarn run lint && yarn run package && yarn test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/brittonhayes/wails-build-action.git"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "go",
+    "wails"
   ],
-  "author": "",
+  "author": "Britton Hayes",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.4.0"
+    "@actions/core": "^1.4.0",
+    "@actions/exec": "^1.1.0",
+    "yaml-validator": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^16.3.3",
@@ -34,6 +37,7 @@
     "eslint": "^7.31.0",
     "eslint-plugin-github": "^4.1.1",
     "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.0.6",
     "js-yaml": "^4.1.0",
     "prettier": "2.2.1",
