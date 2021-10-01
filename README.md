@@ -37,3 +37,34 @@ test:
     myValue: '1'
     myValue2: '2'
 ```
+
+### More Complex Schema
+
+- Use `?` to indicate an optional field
+- Specify the preferred type with values like "string" or "number"
+- Replicate deeply nested structures in JSON to represent expected YAML
+
+```json
+{
+  "structure": {
+    "school": {
+      "description?": "string",
+      "code": "number",
+      "principal": {
+        "name": "string"
+      },
+      "classRooms": [
+        {
+          "name": "string",
+          "id": "number",
+          "location?": {
+            "floor": "string",
+            "building": "string"
+          }
+        }
+      ],
+      "teachers": ["string"]
+    }
+  }
+}
+```
