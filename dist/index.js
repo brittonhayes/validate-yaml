@@ -1,7 +1,7 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 822:
+/***/ 283:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -36,13 +36,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
-const validate_1 = __nccwpck_require__(997);
+const validate_1 = __nccwpck_require__(751);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const files = core.getMultilineInput('files');
-            const schemaPath = core.getInput('schemaPath');
-            yield (0, validate_1.validateYAML)(files, schemaPath);
+            const validator = new validate_1.Validator({
+                files: core.getMultilineInput('files'),
+                schemaPath: core.getInput('schemaPath')
+            });
+            yield validator.ValidateYAML();
         }
         catch (error) {
             core.setFailed(error.message);
@@ -54,7 +56,7 @@ run();
 
 /***/ }),
 
-/***/ 997:
+/***/ 751:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -72,28 +74,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.validateYAML = void 0;
+exports.Validator = void 0;
 const yaml_validator_1 = __importDefault(__nccwpck_require__(551));
-const fs_1 = __importDefault(__nccwpck_require__(747));
-function validateYAML(files, schemaPath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            const structure = fs_1.default.readFileSync(schemaPath, { encoding: 'utf-8' });
-            const options = {
-                log: 'validator.log',
-                onWarning: (err, file) => {
-                    reject(new Error(`File: ${file} - ${err.message}`));
-                },
-                structure: JSON.parse(structure),
-                writeJson: false
-            };
-            const validator = new yaml_validator_1.default(options);
-            validator.validate(files);
-            resolve(validator.report());
+const fs_1 = __importDefault(__nccwpck_require__(147));
+class Validator {
+    constructor(props) {
+        this.props = props;
+    }
+    ValidateYAML() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                const structure = fs_1.default.readFileSync(this.props.schemaPath, { encoding: 'utf-8' });
+                const validator = new yaml_validator_1.default({
+                    log: 'validator.log',
+                    structure: JSON.parse(structure),
+                    writeJson: false,
+                    onWarning: (err, file) => {
+                        reject(new Error(`File: ${file} - ${err.message}`));
+                    },
+                });
+                validator.validate((this.props.files));
+                resolve(validator.report());
+            });
         });
-    });
+    }
 }
-exports.validateYAML = validateYAML;
+exports.Validator = Validator;
 
 
 /***/ }),
@@ -124,7 +130,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issue = exports.issueCommand = void 0;
-const os = __importStar(__nccwpck_require__(87));
+const os = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(278);
 /**
  * Commands
@@ -235,8 +241,8 @@ exports.getIDToken = exports.getState = exports.saveState = exports.group = expo
 const command_1 = __nccwpck_require__(351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
+const os = __importStar(__nccwpck_require__(37));
+const path = __importStar(__nccwpck_require__(17));
 const oidc_utils_1 = __nccwpck_require__(41);
 /**
  * The code to exit an action
@@ -545,8 +551,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issueCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__nccwpck_require__(747));
-const os = __importStar(__nccwpck_require__(87));
+const fs = __importStar(__nccwpck_require__(147));
+const os = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(278);
 function issueCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
@@ -768,8 +774,8 @@ exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHand
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const http = __nccwpck_require__(605);
-const https = __nccwpck_require__(211);
+const http = __nccwpck_require__(685);
+const https = __nccwpck_require__(687);
 const pm = __nccwpck_require__(443);
 let tunnel;
 var HttpCodes;
@@ -1423,7 +1429,7 @@ module.exports.types = {
   int:       __nccwpck_require__(615),
   merge:     __nccwpck_require__(104),
   omap:      __nccwpck_require__(46),
-  seq:       __nccwpck_require__(283),
+  seq:       __nccwpck_require__(546),
   str:       __nccwpck_require__(619)
 };
 
@@ -4435,7 +4441,7 @@ module.exports = __nccwpck_require__(35);
 
 
 
-module.exports = __nccwpck_require__(11).extend({
+module.exports = (__nccwpck_require__(11).extend)({
   implicit: [
     __nccwpck_require__(212),
     __nccwpck_require__(104)
@@ -4468,7 +4474,7 @@ var Schema = __nccwpck_require__(82);
 module.exports = new Schema({
   explicit: [
     __nccwpck_require__(619),
-    __nccwpck_require__(283),
+    __nccwpck_require__(546),
     __nccwpck_require__(150)
   ]
 });
@@ -4491,7 +4497,7 @@ module.exports = new Schema({
 
 
 
-module.exports = __nccwpck_require__(562).extend({
+module.exports = (__nccwpck_require__(562).extend)({
   implicit: [
     __nccwpck_require__(721),
     __nccwpck_require__(993),
@@ -5323,7 +5329,7 @@ module.exports = new Type('tag:yaml.org,2002:pairs', {
 
 /***/ }),
 
-/***/ 283:
+/***/ 546:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -5502,13 +5508,13 @@ module.exports = __nccwpck_require__(219);
 "use strict";
 
 
-var net = __nccwpck_require__(631);
-var tls = __nccwpck_require__(16);
-var http = __nccwpck_require__(605);
-var https = __nccwpck_require__(211);
-var events = __nccwpck_require__(614);
-var assert = __nccwpck_require__(357);
-var util = __nccwpck_require__(669);
+var net = __nccwpck_require__(808);
+var tls = __nccwpck_require__(404);
+var http = __nccwpck_require__(685);
+var https = __nccwpck_require__(687);
+var events = __nccwpck_require__(361);
+var assert = __nccwpck_require__(491);
+var util = __nccwpck_require__(837);
 
 
 exports.httpOverHttp = httpOverHttp;
@@ -7127,10 +7133,10 @@ exports.debug = debug; // for test
  * Licensed under the MIT license.
  */
 
-const fs = __nccwpck_require__(747);
+const fs = __nccwpck_require__(147);
 
 const yaml = __nccwpck_require__(917);
-const check = __nccwpck_require__(34).init();
+const check = (__nccwpck_require__(34).init)();
 
 const FIND_LINENUMBER = /line (\d+)/u;
 
@@ -7354,7 +7360,7 @@ module.exports = YamlValidatore;
 
 /***/ }),
 
-/***/ 357:
+/***/ 491:
 /***/ ((module) => {
 
 "use strict";
@@ -7362,7 +7368,7 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 614:
+/***/ 361:
 /***/ ((module) => {
 
 "use strict";
@@ -7370,7 +7376,7 @@ module.exports = require("events");
 
 /***/ }),
 
-/***/ 747:
+/***/ 147:
 /***/ ((module) => {
 
 "use strict";
@@ -7378,7 +7384,7 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 605:
+/***/ 685:
 /***/ ((module) => {
 
 "use strict";
@@ -7386,7 +7392,7 @@ module.exports = require("http");
 
 /***/ }),
 
-/***/ 211:
+/***/ 687:
 /***/ ((module) => {
 
 "use strict";
@@ -7394,7 +7400,7 @@ module.exports = require("https");
 
 /***/ }),
 
-/***/ 631:
+/***/ 808:
 /***/ ((module) => {
 
 "use strict";
@@ -7402,7 +7408,7 @@ module.exports = require("net");
 
 /***/ }),
 
-/***/ 87:
+/***/ 37:
 /***/ ((module) => {
 
 "use strict";
@@ -7410,7 +7416,7 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 622:
+/***/ 17:
 /***/ ((module) => {
 
 "use strict";
@@ -7418,7 +7424,7 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ 16:
+/***/ 404:
 /***/ ((module) => {
 
 "use strict";
@@ -7426,7 +7432,7 @@ module.exports = require("tls");
 
 /***/ }),
 
-/***/ 669:
+/***/ 837:
 /***/ ((module) => {
 
 "use strict";
@@ -7476,7 +7482,7 @@ module.exports = require("util");
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(822);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(283);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()

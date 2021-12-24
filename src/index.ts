@@ -1,12 +1,14 @@
 import * as core from '@actions/core'
-import {validateYAML} from './validate'
+import {Validator} from './lib/validate'
 
 async function run(): Promise<void> {
   try {
-    const files: string[] = core.getMultilineInput('files')
-    const schemaPath: string = core.getInput('schemaPath')
+    const validator = new Validator({
+      files: core.getMultilineInput('files'),
+      schemaPath: core.getInput('schemaPath')
+    })
 
-    await validateYAML(files, schemaPath)
+    await validator.ValidateYAML()
   } catch (error) {
     core.setFailed((error as Error).message)
   }
