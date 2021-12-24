@@ -22,5 +22,5 @@ jobs:
       - uses: ./
         with:
           files: |
-            __tests__/valid.yaml
-          schemaPath: "__tests__/schema.json"
+            src/_tests__/valid.yaml
+          schemaPath: "src/__tests__/schema.json"
