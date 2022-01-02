@@ -1,5 +1,5 @@
 {
-  "name": "validate-yaml",
+  "name": "validate-yaml-action",
   "version": "0.0.0-development",
   "private": false,
   "description": "Validate YAML against a schema using github actions",
