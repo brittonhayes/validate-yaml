@@ -1,7 +1,7 @@
 {
   "name": "validate-yaml-action",
   "version": "0.0.0-development",
-  "private": false,
+  "private": true,
   "description": "Validate YAML against a schema using github actions",
   "main": "dist/index.js",
   "scripts": {
